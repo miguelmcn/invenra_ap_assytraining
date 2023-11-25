@@ -25,7 +25,7 @@ namespace assytraining.api.Controllers
             return Ok(_mockService.GetAnalyticsViewModel());
         }
 
-        [HttpPost("/deploy-atividade/{activityID}")]
+        [HttpGet("/deploy-atividade/{activityID}")]
         public IActionResult DeployActivity(string activityID)
         {
             return Ok($"http://domain.com/atividade/" + activityID);
