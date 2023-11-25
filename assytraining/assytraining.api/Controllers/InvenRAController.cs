@@ -25,10 +25,22 @@ namespace assytraining.api.Controllers
             return Ok(_mockService.GetAnalyticsViewModel());
         }
 
-        [HttpPost("/deploy-atividade/{activityID}")]
-        public IActionResult DeployActivity(string activityID, [FromBody] ActivityViewModel activity)
+        [HttpPost("/deploy-atividade")]
+        public IActionResult DeployActivity()
         {
-            return Ok($"http://domain.com/path/{activityID}");
+            return Ok($"http://domain.com/atividade/" + Guid.NewGuid().ToString());
+        }
+
+        [HttpPost("/atividade/{activityID}")]
+        public IActionResult StartActivity(string activityID, [FromBody] ActivityViewModel activity)
+        {
+            return Ok($"http://domain.com/execute-atividade/{activityID}");
+        }
+
+        [HttpPost("/execute-atividade/{activityID}/{studentId}")]
+        public IActionResult ExecuteActivity(string activityID, string studentId)
+        {
+            return Ok($"http://domain.com/atividade/{activityID}");
         }
 
         [HttpGet("/json-params-atividade")]
