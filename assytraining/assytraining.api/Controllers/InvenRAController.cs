@@ -54,9 +54,11 @@ namespace assytraining.api.Controllers
         [HttpGet("/json-params-atividade")]
         public IActionResult GetActivityParamListViewModel()
         {
-            // TODO: convert to viewmodel
-            return Ok(_serviceAppParameterItem.GetAll());
-            //return Ok(_mockService.GetJsonParamViewModel());
+            return Ok(_serviceAppParameterItem.GetAll().Select(u => new JsonParamItemViewModel
+            {
+                Name = u.Name,
+                Type = u.Type,
+            }));
         }
     }
 }
