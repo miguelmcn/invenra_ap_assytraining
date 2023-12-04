@@ -7,30 +7,18 @@ namespace assytraining.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvenRAController : Controller
+    public class InvenRAController(InvenRAMockService mockService, ILogger<InvenRAController> logger, IService<ApplicationParameterItem> serviceAppParameterItem) : Controller
     {
-        InvenRAMockService _mockService;
-        private readonly ILogger<InvenRAController> logger;
-
-        private readonly IService<ApplicationParameterItem> _serviceAppParameterItem;
-
-        public InvenRAController(InvenRAMockService mockService, ILogger<InvenRAController> _logger, IService<ApplicationParameterItem> serviceAppParameterItem)
-        {
-            _mockService = mockService;
-            logger = _logger;
-            _serviceAppParameterItem = serviceAppParameterItem;
-        }
-
         [HttpGet("/lista-analytics-atividade")]
         public IActionResult GetAnalyticsListViewModel()
         {
-            return Ok(_mockService.GetAnalyticsListViewModel());
+            return Ok(mockService.GetAnalyticsListViewModel());
         }
 
         [HttpPost("/analytics-atividade")]
         public IActionResult GetAnalyticsViewModel([FromBody] GetAnalyticsViewModel activityID)
         {
-            return Ok(_mockService.GetAnalyticsViewModel());
+            return Ok(mockService.GetAnalyticsViewModel());
         }
 
         [HttpGet("/deploy-atividade/{activityID}")]
@@ -54,7 +42,7 @@ namespace assytraining.api.Controllers
         [HttpGet("/json-params-atividade")]
         public IActionResult GetActivityParamListViewModel()
         {
-            return Ok(_serviceAppParameterItem.GetAll().Select(u => new JsonParamItemViewModel
+            return Ok(serviceAppParameterItem.GetAll().Select(u => new JsonParamItemViewModel
             {
                 Name = u.Name,
                 Type = u.Type,
