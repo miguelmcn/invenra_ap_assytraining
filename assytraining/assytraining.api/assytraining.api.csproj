@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
+    <ProjectReference Include="..\assytraining.application\assytraining.application.csproj" />
+    <ProjectReference Include="..\assytraining.infrastructure\assytraining.infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

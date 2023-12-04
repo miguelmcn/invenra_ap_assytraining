@@ -1,4 +1,7 @@
 using assytraining.api;
+using assytraining.api.Configuration;
+using assytraining.api.Controllers;
+using assytraining.infrastructure.Repositories.DataModel;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +21,10 @@ builder.Services.AddRazorPages(
         options.Conventions.AddPageRoute("/ActivityConfiguration", "/configuracao-atividade.html");
         options.Conventions.AddPageRoute("/ActivityConfiguration", "/configuracao-atividade");
     });
+
+builder.Services.AddSingleton<ILogger<InvenRAController>, Logger<InvenRAController>>();
+
+ApplicationParamItemSetup.SetupApplicationParamItem(builder.Services);
 
 var app = builder.Build();
 

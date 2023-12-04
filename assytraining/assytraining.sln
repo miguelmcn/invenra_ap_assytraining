@@ -3,17 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assytraining.api", "assytraining.api\assytraining.api.csproj", "{20841F4A-3B6B-4FD7-A4E9-63F95E1D1D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "assytraining.api", "assytraining.api\assytraining.api.csproj", "{20841F4A-3B6B-4FD7-A4E9-63F95E1D1D18}"
 	ProjectSection(ProjectDependencies) = postProject
 		{295EB051-98E3-4F5E-8A17-76E00EC64FD6} = {295EB051-98E3-4F5E-8A17-76E00EC64FD6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assytraining.application", "assytraining.application\assytraining.application.csproj", "{295EB051-98E3-4F5E-8A17-76E00EC64FD6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F2828528-22C7-436B-A762-1EB78624E444} = {F2828528-22C7-436B-A762-1EB78624E444}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "assytraining.application", "assytraining.application\assytraining.application.csproj", "{295EB051-98E3-4F5E-8A17-76E00EC64FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assytraining.infrastructure", "assytraining.infrastructure\assytraining.infrastructure.csproj", "{F2828528-22C7-436B-A762-1EB78624E444}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "assytraining.infrastructure", "assytraining.infrastructure\assytraining.infrastructure.csproj", "{F2828528-22C7-436B-A762-1EB78624E444}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AEF64862-7B18-4CE6-BAA7-EFD07DA93A61}"
 	ProjectSection(SolutionItems) = preProject

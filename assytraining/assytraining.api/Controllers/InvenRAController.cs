@@ -1,4 +1,6 @@
 ﻿using assytraining.api.ViewModel;
+using assytraining.application.Domain;
+using assytraining.application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace assytraining.api.Controllers
@@ -8,9 +10,15 @@ namespace assytraining.api.Controllers
     public class InvenRAController : Controller
     {
         InvenRAMockService _mockService;
-        public InvenRAController(InvenRAMockService mockService)
+        private readonly ILogger<InvenRAController> logger;
+
+        private readonly IService<ApplicationParameterItem> _serviceAppParameterItem;
+
+        public InvenRAController(InvenRAMockService mockService, ILogger<InvenRAController> _logger, IService<ApplicationParameterItem> serviceAppParameterItem)
         {
             _mockService = mockService;
+            logger = _logger;
+            _serviceAppParameterItem = serviceAppParameterItem;
         }
 
         [HttpGet("/lista-analytics-atividade")]
@@ -46,7 +54,9 @@ namespace assytraining.api.Controllers
         [HttpGet("/json-params-atividade")]
         public IActionResult GetActivityParamListViewModel()
         {
-            return Ok(_mockService.GetJsonParamViewModel());
+            // TODO: convert to viewmodel
+            return Ok(_serviceAppParameterItem.GetAll());
+            //return Ok(_mockService.GetJsonParamViewModel());
         }
     }
 }

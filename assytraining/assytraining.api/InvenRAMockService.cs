@@ -91,22 +91,6 @@ namespace assytraining.api
                     }
                 };
 
-            //return new JsonParamViewModel()
-            //{
-            //    Items = new List<JsonParamItemViewModel>()
-            //    {
-            //        new JsonParamItemViewModel
-            //        {
-            //            Name = "resumo",
-            //            Type = "text/plain",
-            //        },
-            //        new JsonParamItemViewModel
-            //        {
-            //            Name = "instrucoes",
-            //            Type = "text/plain",
-            //        }
-            //    }
-            //};
         }
 
         public ActivityViewModel GetUserViewModel()
