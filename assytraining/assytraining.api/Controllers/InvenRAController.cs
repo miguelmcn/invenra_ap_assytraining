@@ -1,6 +1,7 @@
 ﻿using assytraining.api.ViewModel;
 using assytraining.application.Domain;
 using assytraining.application.Interfaces.Services;
+using assytraining.infrastructure.Infrastructure.Logging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace assytraining.api.Controllers
@@ -42,6 +43,8 @@ namespace assytraining.api.Controllers
         [HttpGet("/json-params-atividade")]
         public IActionResult GetActivityParamListViewModel()
         {
+            APLogger.GetInstance().Log("AP::API::GET Param List");
+
             return Ok(serviceAppParameterItem.GetAll().Select(u => new JsonParamItemViewModel
             {
                 Name = u.Name,
