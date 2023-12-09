@@ -6,10 +6,10 @@ namespace assytraining.api.ViewModel
     {        
 
         [JsonPropertyName("qualAnalytics")]
-        public IEnumerable<AnalyticsItemViewModel> Qualitative { get; set; }
+        public IEnumerable<AnalyticsItemViewModel>? Qualitative { get; set; }
 
         [JsonPropertyName("quantAnalytics")]
-        public IEnumerable<AnalyticsItemViewModel> Quantitative { get; set; }
+        public IEnumerable<AnalyticsItemViewModel>? Quantitative { get; set; }
     }
 
 }

@@ -1,6 +1,6 @@
 ﻿namespace assytraining.infrastructure.Repositories.Context
 {
-    public interface IContext<TDataModel>
+    internal interface IContext<TDataModel>
     {
         public IEnumerable<TDataModel> GetAll();
 

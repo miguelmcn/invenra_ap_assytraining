@@ -2,7 +2,7 @@
 
 namespace assytraining.api.ViewModel
 {
-    public class AnalyticsItemViewModel 
+    public class AnalyticsItemViewModel
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -13,7 +13,5 @@ namespace assytraining.api.ViewModel
         [JsonPropertyName("value")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public dynamic Value { get; set; }
-
-        
     }
 }

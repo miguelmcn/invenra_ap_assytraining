@@ -1,6 +1,7 @@
 using assytraining.api;
 using assytraining.api.Configuration;
 using assytraining.api.Controllers;
+using assytraining.application.Domain;
 using assytraining.infrastructure.Repositories.DataModel;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -24,7 +25,10 @@ builder.Services.AddRazorPages(
 
 builder.Services.AddSingleton<ILogger<InvenRAController>, Logger<InvenRAController>>();
 
-ApplicationParamItemSetup.SetupApplicationParamItem(builder.Services);
+APConfigurationSetup.SetupAPConfiguration(builder.Services);
+AnalyticsConfigurationSetup.SetupAnalyticsConfiguration(builder.Services);
+AnalyticsSetup.SetupAnalyticsConfiguration(builder.Services);
+ActivityConfigurationSetup.SetupActivityConfiguration(builder.Services);
 
 var app = builder.Build();
 

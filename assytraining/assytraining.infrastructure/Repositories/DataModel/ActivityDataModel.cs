@@ -1,13 +1,13 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace assytraining.api.ViewModel
+namespace assytraining.infrastructure.Repositories.DataModel
 {
-    public class ActivityViewModel
+    public record ActivityDataModel
     {
         [JsonPropertyName("activityID")]
         public string ActivityID { get; set; }
 
-        [JsonPropertyName("Inven!RAstdID")]
+        [JsonPropertyName("InvenRAstdID")]
         public string IvenIRAStudentID { get; set; }
 
         [JsonPropertyName("json_params")]

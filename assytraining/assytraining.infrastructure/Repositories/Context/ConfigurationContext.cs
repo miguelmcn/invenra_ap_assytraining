@@ -1,14 +1,18 @@
 ﻿using assytraining.infrastructure.Repositories.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace assytraining.infrastructure.Repositories.Context
 {
-    public class ConfigurationContext : IContext<ApplicationParamItemDataModel>
+    internal class ConfigurationContext : IContext<ApplicationParamItemDataModel>
     {
+        private static ConfigurationContext? instance;
+
+        private ConfigurationContext() { }
+
+        public static ConfigurationContext GetInstance()
+        {
+            return instance ??= new ConfigurationContext();
+        }
+
         public void Delete(ApplicationParamItemDataModel dataModel)
         {
             throw new NotImplementedException();
@@ -18,16 +22,26 @@ namespace assytraining.infrastructure.Repositories.Context
         {
             return new List<ApplicationParamItemDataModel>()
             {
-                 new ApplicationParamItemDataModel
-                    {
-                        Name = "resumo",
-                        Type = "text/plain",
-                    },
-                    new ApplicationParamItemDataModel
-                    {
-                        Name = "instrucoes",
-                        Type = "text/plain",
-                    }
+                new ()
+                {
+                    Name = "Resumo",
+                    Type = "text/plain",
+                },
+                new ()
+                {
+                    Name = "Veículo",
+                    Type = "text/plain",
+                },
+                new ()
+                {
+                    Name = "Veículo",
+                    Type = "text/plain",
+                },
+                new ()
+                {
+                    Name = "Cíclos por Atividade",
+                    Type = "text/plain",
+                }
             };
         }
 

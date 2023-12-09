@@ -1,6 +1,7 @@
 ﻿using assytraining.api.ViewModel;
 using assytraining.application.Domain;
 using assytraining.application.Interfaces.Services;
+using assytraining.application.Interfaces.Services.Activities;
 using assytraining.infrastructure.Infrastructure.Logging;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,44 +9,87 @@ namespace assytraining.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class InvenRAController(InvenRAMockService mockService, ILogger<InvenRAController> logger, IService<ApplicationParameterItem> serviceAppParameterItem) : Controller
+    public class InvenRAController(
+        InvenRAMockService mockService,
+        IService<ApplicationParameterItem> appConfigurationService,
+
+        IService<AnalyticsConfiguration> analyticsConfigurationService,
+        IAnalyticsReportService analyticsReportService,
+
+        IActivityExecutionService activityExecutionService,
+        IActivityCreatorService activityCreatorService,
+        IActivityReaderService activityReaderService,
+        IActivityDeploymentService activityDeploymentService
+
+        ) : Controller
     {
         [HttpGet("/lista-analytics-atividade")]
-        public IActionResult GetAnalyticsListViewModel()
+        public async Task<IActionResult> GetAnalyticsListViewModel()
         {
-            return Ok(mockService.GetAnalyticsListViewModel());
+            var domainmodel = await analyticsConfigurationService.GetBy(string.Empty);
+
+            var viewmodel = new AnalyticsListViewModel
+            {
+                Qualitative = domainmodel?.Qualitative?.Select(u => new AnalyticsItemViewModel { Name = u.Name, Type = u.Type, Value = u.Value }),
+                Quantitative = domainmodel?.Quantitative?.Select(u => new AnalyticsItemViewModel { Name = u.Name, Type = u.Type, Value = u.Value }),
+            };
+
+            return Ok(viewmodel);
         }
 
         [HttpPost("/analytics-atividade")]
-        public IActionResult GetAnalyticsViewModel([FromBody] GetAnalyticsViewModel activityID)
+        public async Task<IActionResult> GetAnalyticsViewModel([FromBody] GetAnalyticsViewModel activityID)
         {
-            return Ok(mockService.GetAnalyticsViewModel());
+            var domainmodel = await analyticsReportService.GetReport(activityID.ActivityID);
+
+            var viewmodel = new AnalyticsViewModel
+            {
+                InvenIRAStudentID = domainmodel.InvenIRAStudentID,
+                Qualitative = domainmodel?.Qualitative?.Select(u => new AnalyticsItemViewModel { Name = u.Name, Type = u.Type, Value = u.Value }),
+                Quantitative = domainmodel?.Quantitative?.Select(u => new AnalyticsItemViewModel { Name = u.Name, Type = u.Type, Value = u.Value }),
+            };
+
+            return Ok(viewmodel);
         }
 
-        [HttpGet("/deploy-atividade/{activityID}")]
-        public IActionResult DeployActivity(string activityID)
+        [HttpPost("/deploy-atividade/")]
+        public async Task<IActionResult> DeployActivity([FromBody] string activityID)
         {
-            return Ok($"http://domain.com/atividade/" + activityID);
+            var activity = await activityReaderService.GetActivity(activityID);
+            var deploymenturl = await activityDeploymentService.DeployActivity(activity);
+
+            return Ok(deploymenturl);
         }
 
         [HttpPost("/atividade/{activityID}")]
-        public IActionResult StartActivity(string activityID, [FromBody] ActivityViewModel activity)
+        public async Task<IActionResult> GoToActivity(string activityID, [FromBody] ActivityViewModel activityViewModel)
         {
-            return Ok($"http://domain.com/execute-atividade/{activityID}");
+            var newActivity = new Activity
+            {
+                ActivityID = activityViewModel.ActivityID,
+                IvenIRAStudentID = activityViewModel.IvenIRAStudentID,
+                Params = activityViewModel.Params
+            };
+
+            var activity = await activityCreatorService.CreateActivity(newActivity);
+
+            return Ok($"http://domain.com/execute-atividade/{activity.ActivityID}");
         }
 
         [HttpPost("/execute-atividade/{activityID}/{studentId}")]
-        public IActionResult ExecuteActivity(string activityID, string studentId)
+        public async Task<IActionResult> ExecuteActivity(string activityID, string studentId)
         {
-            return Ok($"http://domain.com/atividade/{activityID}");
+            var activity = await activityReaderService.GetActivity(activityID);
+
+            await activityExecutionService.Execute(activity, studentId);
+
+            return Ok();
         }
 
         [HttpGet("/json-params-atividade")]
-        public IActionResult GetActivityParamListViewModel()
+        public async Task<IActionResult> GetAPConfigurationViewModel()
         {
-            APLogger.GetInstance().Log("AP::API::GET Param List");
-
-            return Ok(serviceAppParameterItem.GetAll().Select(u => new JsonParamItemViewModel
+            return Ok((await appConfigurationService.GetAll()).Select(u => new JsonParamItemViewModel
             {
                 Name = u.Name,
                 Type = u.Type,
