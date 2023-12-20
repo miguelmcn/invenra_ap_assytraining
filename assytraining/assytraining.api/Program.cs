@@ -3,11 +3,16 @@ using assytraining.api.Configuration;
 using assytraining.api.Controllers;
 using assytraining.application.Domain;
 using assytraining.infrastructure.Repositories.DataModel;
+using Azure.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://assytrainningkv.vault.azure.net/"),
+        new DefaultAzureCredential());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

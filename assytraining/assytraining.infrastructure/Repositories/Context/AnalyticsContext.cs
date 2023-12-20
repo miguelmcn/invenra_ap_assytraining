@@ -14,28 +14,31 @@ namespace assytraining.infrastructure.Repositories.Context
             return instance ??= new AnalyticsContext();
         }
 
-        public void Delete(AnalyticsDataModel dataModel)
+        public Task Delete(AnalyticsDataModel dataModel)
         {
-            
+            return Task.CompletedTask;
         }
 
-        public IEnumerable<AnalyticsDataModel> GetAll()
+        public async Task<IEnumerable<AnalyticsDataModel>> GetAll()
         {
-            return new List<AnalyticsDataModel>()
+            return await Task.Run(() =>
             {
-                MockedData(Guid.NewGuid().ToString()),
-                MockedData(Guid.NewGuid().ToString())
-        };
+                return new List<AnalyticsDataModel>()
+                {
+                    MockedData(Guid.NewGuid().ToString()),
+                    MockedData(Guid.NewGuid().ToString())
+                };
+            });
         }
 
-        public AnalyticsDataModel GetBy<TId>(TId id)
+        public Task<AnalyticsDataModel> GetBy<TId>(TId id)
         {
-            return MockedData(id);
+            return Task.Run(() => { return MockedData(id); });
         }
-                
-        public AnalyticsDataModel Save(AnalyticsDataModel dataModel)
+
+        public Task<AnalyticsDataModel> Save(AnalyticsDataModel dataModel)
         {
-            return MockedData(Guid.NewGuid().ToString());
+            return Task.FromResult(MockedData(Guid.NewGuid().ToString()));
         }
 
         private static AnalyticsDataModel MockedData<TId>(TId id)

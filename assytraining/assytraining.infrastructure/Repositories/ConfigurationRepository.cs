@@ -16,13 +16,13 @@ namespace assytraining.infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ApplicationParameterItem>> GetAll()
+        public async Task<IEnumerable<ApplicationParameterItem>> GetAll()
         {
-            return Task.FromResult(ConfigurationContext.GetInstance().GetAll().Select(u => new ApplicationParameterItem
+            return (await ConfigurationContext.GetInstance().GetAll()).Select(u => new ApplicationParameterItem
             {
                 Name = u.Name,
                 Type = u.Type
-            }));
+            });
         }
 
         public Task<ApplicationParameterItem> GetBy<TId>(TId id)

@@ -22,15 +22,15 @@ namespace assytraining.infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<AnalyticsConfiguration> GetBy<TId>(TId id)
+        public async Task<AnalyticsConfiguration> GetBy<TId>(TId id)
         {
-            var datamodel = AnalyticsConfigurationContext.GetInstance().GetBy(typeof(AnalyticsConfiguration));
+            var datamodel = await AnalyticsConfigurationContext.GetInstance().GetBy(typeof(AnalyticsConfiguration));
 
-            return Task.FromResult(new AnalyticsConfiguration
+            return new AnalyticsConfiguration
             {
                 Qualitative = datamodel?.Qualitative?.Select(u => new AnalyticsConfigurationItem { Name = u.Name, Type = u.Type, Value = u.Value }),
                 Quantitative = datamodel?.Quantitative?.Select(u => new AnalyticsConfigurationItem { Name = u.Name, Type = u.Type, Value = u.Value }),
-            });
+            };
         }
 
         public Task<AnalyticsConfiguration> Save(AnalyticsConfiguration dataModel)

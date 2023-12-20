@@ -25,27 +25,26 @@ namespace assytraining.infrastructure.Repositories
             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<Activity>> GetAll()
+        public async Task<IEnumerable<Activity>> GetAll()
         {
-            return Task.FromResult(ActivityContext.GetInstance().GetAll().Select(datamodel => new Activity
-            {
-                ActivityID = datamodel.ActivityID,
-                IvenIRAStudentID = datamodel.IvenIRAStudentID,
-                Params = datamodel.Params
-            }
-            ));
-        }
-
-        public Task<Activity> GetBy<TId>(TId id)
-        {
-            var datamodel = ActivityContext.GetInstance().GetBy(id);
-
-            return Task.FromResult(new Activity
+            return (await ActivityContext.GetInstance().GetAll()).Select(datamodel => new Activity
             {
                 ActivityID = datamodel.ActivityID,
                 IvenIRAStudentID = datamodel.IvenIRAStudentID,
                 Params = datamodel.Params
             });
+        }
+
+        public async Task<Activity> GetBy<TId>(TId id)
+        {
+            var datamodel = await ActivityContext.GetInstance().GetBy(id);
+
+            return new Activity
+            {
+                ActivityID = datamodel.ActivityID,
+                IvenIRAStudentID = datamodel.IvenIRAStudentID,
+                Params = datamodel.Params
+            };
         }
 
         public async Task<Activity> Save(Activity domainModel)
@@ -57,7 +56,7 @@ namespace assytraining.infrastructure.Repositories
                 Params = domainModel.Params
             };
 
-            var saved = ActivityContext.GetInstance().Save(datamodel);
+            var saved = await ActivityContext.GetInstance().Save(datamodel);
 
             return await GetBy(saved.ActivityID);
         }

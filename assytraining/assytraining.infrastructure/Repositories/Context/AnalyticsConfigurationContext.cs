@@ -13,24 +13,26 @@ namespace assytraining.infrastructure.Repositories.Context
             return instance ??= new AnalyticsConfigurationContext();
         }
 
-        public void Delete(AnalyticsConfigurationDataModel dataModel)
+        public Task Delete(AnalyticsConfigurationDataModel dataModel)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AnalyticsConfigurationDataModel> GetAll()
+        public async Task<IEnumerable<AnalyticsConfigurationDataModel>> GetAll()
         {
             return new AnalyticsConfigurationDataModel[]
             {
-                GetBy<string>(string.Empty)
+                await GetBy<string>(string.Empty)
             };
         }
 
-        public AnalyticsConfigurationDataModel GetBy<TId>(TId id)
+        public Task<AnalyticsConfigurationDataModel> GetBy<TId>(TId id)
         {
-            return new AnalyticsConfigurationDataModel()
+            return Task.Run(() =>
             {
-                Quantitative = new List<AnalyticsConfigurationItemDataModel>
+                return new AnalyticsConfigurationDataModel()
+                {
+                    Quantitative = new List<AnalyticsConfigurationItemDataModel>
                 {
                     new()
                     {
@@ -63,10 +65,11 @@ namespace assytraining.infrastructure.Repositories.Context
                         Type = "integer"
                     }
                 }
-            };
+                };
+            });
         }
 
-        public AnalyticsConfigurationDataModel Save(AnalyticsConfigurationDataModel dataModel)
+        public Task<AnalyticsConfigurationDataModel> Save(AnalyticsConfigurationDataModel dataModel)
         {
             throw new NotImplementedException();
         }

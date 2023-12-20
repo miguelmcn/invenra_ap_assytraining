@@ -2,12 +2,12 @@
 {
     internal interface IContext<TDataModel>
     {
-        public IEnumerable<TDataModel> GetAll();
+        public Task<IEnumerable<TDataModel>> GetAll();
 
-        public TDataModel GetBy<TId>(TId id);
+        public Task<TDataModel> GetBy<TId>(TId id);
 
-        public TDataModel Save(TDataModel dataModel);
+        public Task<TDataModel> Save(TDataModel dataModel);
 
-        public void Delete(TDataModel dataModel);
+        public Task Delete(TDataModel dataModel);
     }
 }

@@ -1,4 +1,5 @@
-﻿using assytraining.infrastructure.Repositories.DataModel;
+﻿using assytraining.infrastructure.Infrastructure.Data;
+using assytraining.infrastructure.Repositories.DataModel;
 
 namespace assytraining.infrastructure.Repositories.Context
 {
@@ -13,44 +14,23 @@ namespace assytraining.infrastructure.Repositories.Context
             return instance ??= new ConfigurationContext();
         }
 
-        public void Delete(ApplicationParamItemDataModel dataModel)
+        public Task Delete(ApplicationParamItemDataModel dataModel)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ApplicationParamItemDataModel> GetAll()
+        public async Task<IEnumerable<ApplicationParamItemDataModel>> GetAll()
         {
-            return new List<ApplicationParamItemDataModel>()
-            {
-                new ()
-                {
-                    Name = "Resumo",
-                    Type = "text/plain",
-                },
-                new ()
-                {
-                    Name = "Veículo",
-                    Type = "text/plain",
-                },
-                new ()
-                {
-                    Name = "Veículo",
-                    Type = "text/plain",
-                },
-                new ()
-                {
-                    Name = "Cíclos por Atividade",
-                    Type = "text/plain",
-                }
-            };
+            var configs = await TableStorageFacade.GetInstance().GetData("PartitionKey eq 'Configuration'");
+            return configs.Select(config => new ApplicationParamItemDataModel() { Name = config.Key, Type = config.Value });
         }
 
-        public ApplicationParamItemDataModel GetBy<TId>(TId id)
+        public Task<ApplicationParamItemDataModel> GetBy<TId>(TId id)
         {
             throw new NotImplementedException();
         }
 
-        public ApplicationParamItemDataModel Save(ApplicationParamItemDataModel dataModel)
+        public Task<ApplicationParamItemDataModel> Save(ApplicationParamItemDataModel dataModel)
         {
             throw new NotImplementedException();
         }

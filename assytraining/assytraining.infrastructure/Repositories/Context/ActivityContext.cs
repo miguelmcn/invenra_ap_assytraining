@@ -13,28 +13,31 @@ namespace assytraining.infrastructure.Repositories.Context
             return instance ??= new ActivityContext();
         }
 
-        public void Delete(ActivityDataModel dataModel)
+        public Task Delete(ActivityDataModel dataModel)
         {
-            
+            return Task.CompletedTask;
         }
 
-        public IEnumerable<ActivityDataModel> GetAll()
+        public async Task<IEnumerable<ActivityDataModel>> GetAll()
         {
-            return new List<ActivityDataModel>()
-            {
-                MockedData(Guid.NewGuid().ToString()),
-                MockedData(Guid.NewGuid().ToString())
-            };
+            return await Task.Run(() =>
+               {
+                   return new List<ActivityDataModel>()
+                   {
+                    MockedData(Guid.NewGuid().ToString()),
+                    MockedData(Guid.NewGuid().ToString())
+                   };
+               });
         }
 
-        public ActivityDataModel GetBy<TId>(TId id)
+        public Task<ActivityDataModel> GetBy<TId>(TId id)
         {
-            return MockedData(id);
+            return Task.FromResult(MockedData(id));
         }
 
-        public ActivityDataModel Save(ActivityDataModel dataModel)
+        public Task<ActivityDataModel> Save(ActivityDataModel dataModel)
         {
-            return MockedData(Guid.NewGuid().ToString());
+            return Task.FromResult(MockedData(Guid.NewGuid().ToString()));
         }
 
         private static ActivityDataModel MockedData<TId>(TId id)
