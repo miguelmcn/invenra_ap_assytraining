@@ -9,11 +9,20 @@ namespace assytraining.application.Services.Activities
         public async Task<string> DeployActivity(Activity activity)
         {
             // TODO: implement logic
-            await activityService.Save(activity);
+            var createdActivity = await activityService.Save(activity);
 
-            var url = $"http://domain.com/atividade/" + activity.ActivityID;
+            var url = $"http://domain.com/atividade/" + createdActivity.ActivityID;
 
             return url;
+        }
+
+        public async Task<string> DeployActivity(string activityId)
+        {
+            var activity = await activityService.GetBy(activityId);
+
+            if (activity == null) { throw new Exception($"Activity {activityId} not found"); }
+
+            return await DeployActivity(activity);
         }
     }
 }

@@ -55,8 +55,7 @@ namespace assytraining.api.Controllers
         [HttpPost("/deploy-atividade/")]
         public async Task<IActionResult> DeployActivity([FromBody] string activityID)
         {
-            var activity = await activityReaderService.GetActivity(activityID);
-            var deploymenturl = await activityDeploymentService.DeployActivity(activity);
+            var deploymenturl = await activityDeploymentService.DeployActivity(activityID);
 
             return Ok(deploymenturl);
         }

@@ -1,37 +1,38 @@
 ﻿using assytraining.application.Domain;
 using assytraining.application.Interfaces.Repositories;
-using assytraining.application.Interfaces.Services;
-using assytraining.application.Interfaces.Services.Activities;
 
 namespace assytraining.application.Services
 {
-    public class ActivityManagementService(IRepository<Activity> repository) : IService<Activity>
+    public class ActivityManagementService(IRepository<Activity> repository) : BaseService<Activity>(repository)
     {
         public Task<Activity> CreateActivityAsync(Activity activity)
         {
-            return repository.Save(activity);
+            return Save(activity);
         }
 
         public Task DeployActivity(Activity activity)
         {
             // TODO: deployment process 
 
-            return repository.Save(activity);
+            return Save(activity);
         }
 
-        public Task<IEnumerable<Activity>> GetAll()
+        public override Task<IEnumerable<Activity>> GetAll()
         {
             return repository.GetAll();
         }
 
-        public Task<Activity> GetBy(string id)
+        public override Task<Activity> GetBy(string id)
         {
             return repository.GetBy(id);
         }
 
-        public Task<Activity> Save(Activity domainModel)
+        public override async Task Validate(Activity domainModel)
         {
-            return repository.Save(domainModel);
+            await Task.Run(() =>
+            {
+                if (string.IsNullOrEmpty(domainModel.ActivityID.Trim())) throw new Exception("Invalid Activity");
+            });
         }
     }
 }

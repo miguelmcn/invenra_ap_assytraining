@@ -58,7 +58,12 @@ namespace assytraining.infrastructure.Repositories
 
             var saved = await ActivityContext.GetInstance().Save(datamodel);
 
-            return await GetBy(saved.ActivityID);
+            return new Activity
+            {
+                ActivityID = saved.ActivityID,
+                IvenIRAStudentID = saved.IvenIRAStudentID,
+                Params = saved.Params
+            };
         }
     }
 }

@@ -4,6 +4,7 @@ namespace assytraining.application.Interfaces.Services.Activities
 {
     public interface IActivityDeploymentService
     {
+        public Task<string> DeployActivity(string activityId);
         public Task<string> DeployActivity(Activity activity);
     }
 }
