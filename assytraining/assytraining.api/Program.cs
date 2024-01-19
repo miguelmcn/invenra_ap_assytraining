@@ -1,10 +1,5 @@
-using assytraining.api;
 using assytraining.api.Configuration;
-using assytraining.api.Controllers;
-using assytraining.application.Domain;
-using assytraining.infrastructure.Repositories.DataModel;
 using Azure.Identity;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<InvenRAMockService>();
 
 builder.Services.AddRazorPages(
     options =>
@@ -28,7 +22,6 @@ builder.Services.AddRazorPages(
         options.Conventions.AddPageRoute("/ActivityConfiguration", "/configuracao-atividade");
     });
 
-builder.Services.AddSingleton<ILogger<InvenRAController>, Logger<InvenRAController>>();
 
 APConfigurationSetup.SetupAPConfiguration(builder.Services);
 AnalyticsConfigurationSetup.SetupAnalyticsConfiguration(builder.Services);
